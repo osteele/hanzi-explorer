@@ -1,27 +1,27 @@
 export function isPinyin(str: string) {
   // Remove any spaces from the string
   str = str.replace(/\s/g, "");
-  // Test for pinyin with tone numbers (1-5)
-  var re1 = /^[a-zA-Z\u0100-\uFFFF]+[1-5]?$/;
-  // Test for pinyin with tone marks
-  var re2 = /^[a-zA-Z\u0100-\uFFFF]+[\u0300-\u0304\u0306-\u030C]?$/;
+  // Test for pinyin with tone numbers (1-5) or tone marks
+  const re =
+    /^(([bpmfdtnlgkhjqxrzcsyw]|[zcs]h)[aāàǎáeēèěéiīìǐíoōòǔóuūùûúüǘǚǜ]{1,2}[rng]?|[1-5]?)+$/i;
   // Test the string against the regular expressions
-  return re1.test(str) || re2.test(str);
+  return re.test(str);
 }
 
 export function isHanzi(str: string) {
   // Remove any spaces from the string
   str = str.replace(/\s/g, "");
   // Test for Hanzi
-  return /^[\u4E00-\u9FA5]+$/.test(str);
+  const re = /^[\u4E00-\u9FA5]+$/;
+  return re.test(str);
 }
 
 export function getHanziCount(str: string) {
   // Remove any spaces from the string
   str = str.replace(/\s/g, "");
-  console.log("str", str);
+  const re = /[\u4E00-\u9FA5]/g;
   // Count the number of Hanzi
-  return str.match(/[\u4E00-\u9FA5]/g)?.length || 0;
+  return str.match(re)?.length || 0;
 }
 
 export function terminateJSON(json: string) {
