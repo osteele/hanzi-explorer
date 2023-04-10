@@ -20,37 +20,31 @@ function App() {
     <ChakraProvider>
       <APIKeyProvider>
         <Flex direction="column" h="100vh">
-          <Heading
-            as="h1"
-            size="lg"
-            bgGradient="linear(to-r, red.600, red.200)"
-            color="white"
-            p={4}
-          >
-            Hanzi Explainer
-          </Heading>
-          <Flex flexGrow={1}>
-            <Box w="40" bg="gray.50" p={4}>
+          <Flex direction="row" bgGradient="linear(to-r, red.600, red.200)">
+            <Heading flex="1" as="h1" size="lg" color="white" p={4}>
+              Hanzi Explorer
+            </Heading>
+            <Box textAlign="right" w="40" p={4}>
               <APIKeyForm />
             </Box>
-            <Box w="80%" p={4}>
-              <APIKeyWarning />
-              <Tabs isFitted variant="enclosed" defaultIndex={0}>
-                <TabList>
-                  {/* <Tab>Components</Tab> */}
-                  {/* <Tab>Mnemonics</Tab> */}
-                  {/* <Tab>Synonyms</Tab> */}
-                </TabList>
-                <TabPanels>
-                  <TabPanel>
-                    <HanziDetailsComponent />
-                  </TabPanel>
-                  <TabPanel></TabPanel>
-                  <TabPanel></TabPanel>
-                </TabPanels>
-              </Tabs>
-            </Box>
           </Flex>
+          <Box w="80%" p={4}>
+            <APIKeyWarning />
+            <Tabs isFitted variant="enclosed" defaultIndex={0}>
+              <TabList>
+                {/* <Tab>Components</Tab> */}
+                {/* <Tab>Mnemonics</Tab> */}
+                {/* <Tab>Synonyms</Tab> */}
+              </TabList>
+              <TabPanels>
+                <TabPanel>
+                  <HanziDetailsComponent />
+                </TabPanel>
+                <TabPanel></TabPanel>
+                <TabPanel></TabPanel>
+              </TabPanels>
+            </Tabs>
+          </Box>
         </Flex>
       </APIKeyProvider>
     </ChakraProvider>
