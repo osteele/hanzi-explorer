@@ -14,21 +14,29 @@ import "./App.css";
 import APIKeyForm from "./components/APIKeyForm";
 import APIKeyWarning from "./components/APIKeyWarning";
 import HanziDetailsComponent from "./components/HanziDetailsComponent";
+import { customTheme } from "./theme";
 
 function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={customTheme}>
       <APIKeyProvider>
         <Flex direction="column" h="100vh">
-          <Flex direction="row" bgGradient="linear(to-r, red.600, red.200)">
-            <Heading flex="1" as="h1" size="lg" color="white" p={4}>
+          <Flex direction="row" bgGradient="linear(to-r, blue.600, gray.200)">
+            <Heading
+              flex="1"
+              as="h1"
+              size="lg"
+              color="white"
+              fontFamily="logotype"
+              p={4}
+            >
               Hanzi Explorer
             </Heading>
             <Box textAlign="right" w="40" p={4}>
               <APIKeyForm />
             </Box>
           </Flex>
-          <Box w="80%" p={4}>
+          <Box>
             <APIKeyWarning />
             <Tabs isFitted variant="enclosed" defaultIndex={0}>
               <TabList>

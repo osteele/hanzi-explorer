@@ -2,6 +2,7 @@ import { ArrowLeftIcon, ArrowRightIcon, CopyIcon } from "@chakra-ui/icons";
 import {
   Alert,
   HStack,
+  Heading,
   IconButton,
   ListItem,
   OrderedList,
@@ -76,16 +77,9 @@ function CompletionListItem({
       {sections.map(({ title, content }) => (
         <VStack align="left">
           {title && (
-            <h2
-              style={{
-                fontSize: "large",
-                color: "#444",
-                background: "#eee",
-                display: "inline-block",
-              }}
-            >
+            <Heading as="h2" size="md" bg="brand.100">
               {title}
-            </h2>
+            </Heading>
           )}
           {isOrderedList(content) ? (
             <OrderedList pl="5">

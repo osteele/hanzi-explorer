@@ -26,7 +26,7 @@ const APIKeyForm = () => {
 
   return (
     <>
-      <Button ref={btnRef} colorScheme="teal" onClick={onOpen}>
+      <Button ref={btnRef} onClick={onOpen} fontFamily="heading">
         API Key
       </Button>
       <Drawer

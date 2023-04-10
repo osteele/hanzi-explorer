@@ -25,7 +25,7 @@ export function HanziWordInputComponent({
   onSubmit,
 }: Props) {
   return (
-    <VStack align="left">
+    <VStack align="left" mb="8">
       {/* <HStack align="baseline">
         <FormLabel>Hanzi</FormLabel>
       </HStack> */}
@@ -35,17 +35,16 @@ export function HanziWordInputComponent({
         color="gray.500"
         display={{ base: "none", lg: "block" }}
       >
-        Enter a Mandarin or pinyin character or word.
+        Enter a Hanzi character or word, or pinyin for a single character.
       </Box>
 
       <HStack>
         <Button
           type="submit"
           colorScheme="blue"
-          size="sm"
           minW="unset"
           display="inline-block"
-          width="10em"
+          width="8em"
           isDisabled={isDisabled}
           onClick={(e) => {
             e.preventDefault();
