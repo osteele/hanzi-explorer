@@ -14,37 +14,42 @@ Suggest three mnemonics for remembering the meanings of {{word}}, based on its s
 
 Follow this example. Use this exact format, with the specific fields as named, and include all of the information requested.
 
-Character: 床
+\`
+# Character
+床
 
-Pronunciation: chuáng
+# Pronunciation
+chuáng
 
-Meanings: bed
+# Senses
+The senses of 床 include bed, couch, and other similar pieces of furniture used for resting or sleeping.
 
-Frequency: This character is very common and is used in both speech and writing. It frequently appears in words related to sleeping, resting, and furniture.
+# Frequency
+This character is very common and is used in both speech and writing. It frequently appears in words related to sleeping, resting, and furniture.
 
-Words:
+# Words
 - 床上 (chuáng shàng) - on the bed
 - 床垫 (chuáng diàn) - mattress
 - 床头 (chuáng tóu) - head of the bed
 - 床单 (chuáng dān) - bed sheet
 - 床铺 (chuáng pù) - bedding
 
-Examples:
+# Examples
 1. 我喜欢在舒适的床上睡觉。 (Wǒ xǐhuān zài shūshì de chuáng shàng shuìjiào.) - I like to sleep on a comfortable bed.
 2. 他在床上看书。 (Tā zài chuáng shàng kànshū.) - He is reading on the bed.
 3. 请把床单换一下。 (Qǐng bǎ chuáng dān huàn yíxià.) - Please change the bed sheet.
 
-Components:
+# Components
 - 床 is composed of two other characters: 木 (mù) meaning wood and 广 (guǎng) meaning wide. This suggests that the bed is a wide piece of furniture made of wood.
 
-Sensess: The senses of 床 include bed, couch, and other similar pieces of furniture used for resting or sleeping.
+# Synonyms
+Some synonyms for 床 include 床榻 (chuáng tà) and 床位 (chuáng wèi), which both refer to a sleeping place or bed. However, they differ in that 床榻 often refers to a traditional Chinese-style bed, while 床位 can refer to a bed in a hospital or dormitory.
 
-Synonyms: Some synonyms for 床 include 床榻 (chuáng tà) and 床位 (chuáng wèi), which both refer to a sleeping place or bed. However, they differ in that 床榻 often refers to a traditional Chinese-style bed, while 床位 can refer to a bed in a hospital or dormitory.
-
-Mnemonics:
+# Mnemonics
 1. The character looks like a person lying down on a wide piece of wood, representing a bed.
 2. The 木 component suggests that the bed is made of wood.
 3. The 广 component represents the wide size of the bed.
+\`
 `;
 
 export const multiCharacterTemplate = `Tell me about the word {{word}}.
@@ -54,18 +59,39 @@ What are its senses?
 How common is it? Is it used in speech, writing, or both?
 Give three to three example sentences.
 Suggest three mnemonics for remembering the meanings of {{word}}, based on its characters.
+
+Use this template as an example. Use this exact format, with the specific fields as named, and include all of the information requested.
+
+\`
+# Pronunciation
+nǐ hǎo
+
+# Meaning
+The word 你好 is a common greeting used in both speech and writing. It can be translated to "hello" or "hi" in English.
+
+# Examples
+
+1. 你好，我是玛丽。 (nǐ hǎo, wǒ shì mǎ lì) - Hello, I am Mary.
+2. 你好吗？ (nǐ hǎo ma?) - How are you?
+3. 他向我打了个招呼，说了声“你好”。 (tā xiàng wǒ dǎ le gè zhāo hu，shuō le shēng "nǐ hǎo") - He greeted me and said "hello".
+
+# Menmonics
+1. 你 (nǐ) means "you" and 好 (hǎo) means "good", so 你好 is a friendly greeting to say "you are good".
+2. The character 好 (hǎo) has the radical "女" which means "woman". So, 你好 can be remembered as a friendly greeting from a woman to a man.
+3. The character 好 (hǎo) is made up of the characters "子" which means "child" and "女" which means "woman". So, 你好 can be thought of as a greeting from a child to a woman or vice versa.
+\`
 `;
 
 export const pinyinTemplate = `Tell me about the pinyin {{word}}.
+Use simplified Chinese characters if possible.
 Which Hanzi have the pinyin "{{word}}"?
-List them from most to least common.
 First, list Hanzi that can be used as standalone words, from most to least common.
 Then, list Hanzi that can only be used as parts of words, from most to least common.
-Use simplified Chinese characters if possible.
 
-For example:
+Use this template as an example. Use this exact format, with the specific fields as named, and include all of the information requested.
 
-Characters that can be used as words:
+\`
+# Characters that can be used as words
 
 1. 有 (yǒu) - "to have" or "there is/are". It can also be used as an auxiliary verb to indicate past tense.
 Frequency rank: 10
@@ -87,7 +113,7 @@ Example: 这个孩子还太幼稚了。 (Zhège háizi hái tài yòuzhìle.) �
 Frequency rank: 2889
 Example: 希望神能保佑我们平安。 (Xīwàng shén néng bǎoyòu wǒmen píng'ān.) – I hope God can bless us and keep us safe.
 
-Hanzi that can only be used as parts of words:
+# Hanzi that can only be used as parts of words
 
 1. 游 (yóu) - "to swim" or "to travel".
 Frequency rank: 505
@@ -96,7 +122,8 @@ Example: 我喜欢去海边游泳。 (Wǒ xǐhuān qù hǎibiān yóuyǒng.) –
 2. 铀 (yóu) - "uranium".
 Frequency rank: 3247
 Example: 铀是一种放射性元素。 (Yóu shì yī zhǒng fàngshèxìng yuánsù.) – Uranium is a radioactive element.
-`.replace(/Frequency rank: \d+\n/g, "");
+\`
+  `.replace(/Frequency rank: \d+\n/g, "");
 
 export function identifyWordType(word: string) {
   if (isPinyin(word)) {

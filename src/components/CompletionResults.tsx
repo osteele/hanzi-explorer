@@ -1,21 +1,25 @@
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  ArrowUpIcon,
-  CopyIcon,
-} from "@chakra-ui/icons";
+import { ArrowLeftIcon, ArrowRightIcon, CopyIcon } from "@chakra-ui/icons";
 import {
   Alert,
   HStack,
   IconButton,
+  ListItem,
+  OrderedList,
   Skeleton,
   Spinner,
   Tag,
   TagLeftIcon,
   Text,
   Tooltip,
+  UnorderedList,
   VStack,
 } from "@chakra-ui/react";
+import {
+  getMarkdownListItems,
+  isOrderedList,
+  isUnorderedList,
+  splitMarkdownSections,
+} from "../markdown";
 import { Completions } from "../openAIClient";
 
 type Props = {
@@ -35,49 +39,74 @@ export const CompletionResults = ({
 }: Props) => (
   <>
     {error && <Alert status="error">{error.message}</Alert>}
-    {requestInProgress && !completions && (
-      <>
-        <Spinner size="xl" />
-        <Skeleton />
-      </>
-    )}
     {completions && (
       <VStack align="left">
-        {completions.map(({ prompt, completion, tags, isChat }, index) =>
+        {completions.map(({ completion }, index) =>
           CompletionListItem({
-            prompt,
             completion,
-            tags,
-            isChat,
-            title: completions.length > 1 ? `Result #${index + 1}` : undefined,
             requestInProgress,
             setPrompt,
           })
         )}
       </VStack>
     )}
+    {requestInProgress && (
+      <>
+        <Spinner size="xl" />
+        <Skeleton />
+      </>
+    )}
   </>
 );
 
 type CompletionListItemProps = {
-  title?: string;
-  prompt: string;
   completion: string;
-  isChat: boolean;
-  tags?: string[];
   requestInProgress: boolean;
   setPrompt: (prompt: string) => void;
 };
 
 function CompletionListItem({
-  title,
-  prompt,
   completion,
-  tags,
-  isChat,
   requestInProgress,
   setPrompt,
 }: CompletionListItemProps) {
+  const sections = splitMarkdownSections(completion);
+  return (
+    <>
+      {sections.map(({ title, content }) => (
+        <VStack align="left">
+          {title && (
+            <h2
+              style={{
+                fontSize: "large",
+                color: "#444",
+                background: "#eee",
+                display: "inline-block",
+              }}
+            >
+              {title}
+            </h2>
+          )}
+          {isOrderedList(content) ? (
+            <OrderedList pl="5">
+              {getMarkdownListItems(content).map((item) => (
+                <ListItem>{item}</ListItem>
+              ))}
+            </OrderedList>
+          ) : isUnorderedList(content) ? (
+            <UnorderedList pl="5">
+              {getMarkdownListItems(content).map((item) => (
+                <ListItem>{item}</ListItem>
+              ))}
+            </UnorderedList>
+          ) : (
+            <Text>{content}</Text>
+          )}
+        </VStack>
+      ))}
+    </>
+  );
+
   return (
     <VStack align="left">
       {listItemHeader()}
@@ -122,26 +151,10 @@ function CompletionListItem({
             aria-label="Copy result"
             variant="outline"
             icon={<CopyIcon />}
-            onClick={() => navigator.clipboard.writeText(prompt + completion)}
+            onClick={() => navigator.clipboard.writeText(completion)}
           />
         </Tooltip>
-        {tags &&
-          tags.map((name) => (
-            <Tag variant="solid" colorScheme="teal">
-              {name === "settings #1" && (
-                <TagLeftIcon boxSize="12px" as={ArrowLeftIcon} />
-              )}
-              {name}
-              {name === "settings #2" && (
-                <TagLeftIcon boxSize="12px" as={ArrowRightIcon} />
-              )}
-            </Tag>
-          ))}
       </HStack>
     );
-  }
-
-  function getResultText(): string {
-    return [prompt, completion].join(isChat ? "\n" : "");
   }
 }

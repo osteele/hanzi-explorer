@@ -38,25 +38,30 @@ export function HanziWordInputComponent({
         Enter a Mandarin or pinyin character or word.
       </Box>
 
-      <Input
-        value={word}
-        onChange={(event) => setWord(event.target.value)}
-        isRequired={true}
-        size="lg"
-      />
+      <HStack>
+        <Button
+          type="submit"
+          colorScheme="blue"
+          size="sm"
+          minW="unset"
+          display="inline-block"
+          width="10em"
+          isDisabled={isDisabled}
+          onClick={(e) => {
+            e.preventDefault();
+            onSubmit();
+          }}
+        >
+          Explain
+        </Button>
 
-      <Button
-        type="submit"
-        colorScheme="blue"
-        size="sm"
-        isDisabled={isDisabled}
-        onClick={(e) => {
-          e.preventDefault();
-          onSubmit();
-        }}
-      >
-        Explain
-      </Button>
+        <Input
+          value={word}
+          onChange={(event) => setWord(event.target.value)}
+          isRequired={true}
+          size="lg"
+        />
+      </HStack>
     </VStack>
   );
 }
