@@ -35,16 +35,31 @@ function Header() {
       </Box>
     </Flex>
   );
-  k;
 }
 
 function App() {
   return (
     <Providers>
-      <Flex direction="column" h="100vh">
-        <Header />
-        <HanziDetailsComponent />
-      </Flex>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "gold",
+        }}
+      >
+        <Flex
+          direction="column"
+          h="100vh"
+          background="white"
+          css={{
+            maxWidth: "calc(min(1000px,100vw))",
+          }}
+        >
+          <Header />
+          <HanziDetailsComponent />
+        </Flex>
+      </div>
     </Providers>
   );
 }
