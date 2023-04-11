@@ -1,15 +1,14 @@
 import {
   Box,
   Button,
-  FormLabel,
   HStack,
+  Icon,
+  IconButton,
   Input,
-  Switch,
-  Text,
-  Textarea,
-  Tooltip,
   VStack,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import { FaInfo } from "react-icons/fa";
 
 type Props = {
   word: string;
@@ -24,19 +23,12 @@ export function HanziWordInputComponent({
   isDisabled,
   onSubmit,
 }: Props) {
+  const [showInfo, setShowInfo] = useState(false);
   return (
     <VStack align="left" mb="8">
       {/* <HStack align="baseline">
         <FormLabel>Hanzi</FormLabel>
       </HStack> */}
-
-      <Box
-        fontSize="sm"
-        color="gray.500"
-        display={{ base: "none", lg: "block" }}
-      >
-        Enter a Hanzi character or word, or pinyin for a single character.
-      </Box>
 
       <HStack>
         <Button
@@ -53,6 +45,17 @@ export function HanziWordInputComponent({
         >
           Explain
         </Button>
+        {/* <Icon as={FaInfo} onClick={() => setShowInfo(!showInfo)} /> */}
+        <IconButton
+          aria-label="Info"
+          icon={<FaInfo />}
+          onClick={() => setShowInfo(!showInfo)}
+          size="sm"
+          background="none"
+          colorScheme="gray"
+          color="gray.500"
+          css={{ position: "relative", top: "-10px", left: "-10px" }}
+        />
 
         <Input
           value={word}
@@ -61,6 +64,14 @@ export function HanziWordInputComponent({
           size="lg"
         />
       </HStack>
+
+      {showInfo && (
+        <Box fontSize="sm" color="gray.500" lineHeight={1.2}>
+          Enter a Hanzi character or word, to see a list of meanings, examples,
+          and generated menomnics. You may also enter the pinyin for a single
+          character, to see a list of matching characters.
+        </Box>
+      )}
     </VStack>
   );
 }

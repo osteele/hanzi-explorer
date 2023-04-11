@@ -1,6 +1,6 @@
 import { extendTheme } from "@chakra-ui/react";
 
-export const customTheme = extendTheme({
+export const theme = extendTheme({
   colors: {
     brand: {
       50: "#f5f8fa",
@@ -30,6 +30,20 @@ export const customTheme = extendTheme({
   fonts: {
     heading: "Open Sans",
     body: "Roboto",
-    logotype: "Nunito",
+    logotype: "Ma Shan Zheng",
+  },
+  components: {
+    APIKeyForm: {
+      baseStyle: {
+        fontFamily: "body",
+      },
+    },
+    Heading: {
+      baseStyle: {
+        // fontFamily: "heading",
+        color: "yellow.400",
+        textShadow: "2px 4px 4px rgba(0,0,0,0.6)",
+      },
+    },
   },
 });
