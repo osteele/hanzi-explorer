@@ -1,41 +1,8 @@
-import { Box, ChakraProvider, Flex, Heading } from "@chakra-ui/react";
-import { APIKeyProvider } from "./APIKeyContext";
+import { Flex } from "@chakra-ui/react";
 import "./App.css";
-import APIKeyForm from "./components/APIKeyForm";
+import { Providers } from "./Providers";
 import HanziDetailsComponent from "./components/HanziDetailsComponent";
-import { theme } from "./theme";
-
-function Providers({ children }: { children: React.ReactNode }) {
-  return (
-    <ChakraProvider theme={theme}>
-      <APIKeyProvider>{children}</APIKeyProvider>
-    </ChakraProvider>
-  );
-}
-
-function Header() {
-  return (
-    <Flex
-      direction="row"
-      background="0 center / 100% url('/header-background.jpg')"
-      // bgGradient="linear(to-r, blue.600, gray.200)"
-      shadow="0px 0px 10px 0px rgba(0,0,0,0.75)"
-    >
-      <Heading
-        flex="1"
-        as="h1"
-        style={{ fontSize: "30pt" }}
-        fontFamily="logotype"
-        pl={4}
-      >
-        Hanzi Explorer
-      </Heading>
-      <Box textAlign="right" w="40" p={4} fontFamily="body">
-        <APIKeyForm />
-      </Box>
-    </Flex>
-  );
-}
+import { Header } from "./components/Header";
 
 function App() {
   return (

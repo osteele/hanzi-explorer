@@ -15,11 +15,10 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { APIKeyContext } from "../APIKeyContext";
 
 const APIKeyForm = () => {
-  const [showApiKey, setShowApiKey] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { apiKey, apiKeyIsValid, saveApiKey } = useContext(APIKeyContext)!;
   const btnRef = React.useRef(null);
