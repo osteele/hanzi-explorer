@@ -10,9 +10,10 @@ If it is composed of other characters, what are they, and what are their meaning
 List the most common words that it occurs in, and their meanings, by semantic category.
 Based on these menaings, what are the senses of {{word}}?
 What are some synonyms, and how do they differ?
-Suggest three mnemonics for remembering the meanings of {{word}}, based on its shape and/or components.
+Based on the shape and meaning of the character, make up three stories that can be used as mnemonics.
 
 Follow this example. Use this exact format, with the specific fields as named, and include all of the information requested.
+The Words section should only have words, not sentences comprised of multiple words.
 
 \`
 # Character
@@ -21,11 +22,11 @@ Follow this example. Use this exact format, with the specific fields as named, a
 # Pronunciation
 chuáng
 
+# Frequency
+This character is very common and is used in both speech and writing.
+
 # Senses
 The senses of 床 include bed, couch, and other similar pieces of furniture used for resting or sleeping.
-
-# Frequency
-This character is very common and is used in both speech and writing. It frequently appears in words related to sleeping, resting, and furniture.
 
 # Words
 - 床上 (chuáng shàng) - on the bed
@@ -38,17 +39,19 @@ This character is very common and is used in both speech and writing. It frequen
 1. 我喜欢在舒适的床上睡觉。 (Wǒ xǐhuān zài shūshì de chuáng shàng shuìjiào.) - I like to sleep on a comfortable bed.
 2. 他在床上看书。 (Tā zài chuáng shàng kànshū.) - He is reading on the bed.
 3. 请把床单换一下。 (Qǐng bǎ chuáng dān huàn yíxià.) - Please change the bed sheet.
+4. …
+5. …
 
 # Components
-- 床 is composed of two other characters: 木 (mù) meaning wood and 广 (guǎng) meaning wide. This suggests that the bed is a wide piece of furniture made of wood.
+- 床 is composed of two other characters: 木 (mù) meaning wood and 广 (guǎng) meaning wide. This suggests that the bed is a wide piece of furniture made of wood. 木 is a sound component.
 
 # Synonyms
 Some synonyms for 床 include 床榻 (chuáng tà) and 床位 (chuáng wèi), which both refer to a sleeping place or bed. However, they differ in that 床榻 often refers to a traditional Chinese-style bed, while 床位 can refer to a bed in a hospital or dormitory.
 
 # Mnemonics
-1. The character looks like a person lying down on a wide piece of wood, representing a bed.
-2. The 木 component suggests that the bed is made of wood.
-3. The 广 component represents the wide size of the bed.
+1. Once upon a time, there was a woodcutter who had a very wide bed made of wood. He loved to sleep on it at night, but during the day, he would chop wood with his axe. The sound of his axe echoed throughout the forest, and the animals would come to watch him work. They were amazed by his strength and determination. Whenever the woodcutter got tired, he would take a nap on his wide wooden bed, and the animals would keep watch over him until he woke up.
+2. Long ago, a wise old man lived in a small village. He had a wooden bed that was so wide, it could fit three people. The villagers would come to him for advice and guidance, and the old man would listen to their problems while lying on his bed. He would stroke his beard thoughtfully and offer sage advice, which the villagers would always take to heart. When the old man passed away, the villagers built a shrine in his honor and placed his wide wooden bed inside as a symbol of his wisdom and compassion.
+3. In a far-off land, there was a magical forest where the trees were as tall as mountains. At the heart of the forest stood a giant wooden bed, so wide that it could fit an entire village. Legend had it that whoever slept on the bed would be granted three wishes. Many people came from far and wide to try their luck, but few were granted their wishes. One day, a kind-hearted orphan stumbled upon the bed and made a simple wish: for a home and a family. To his surprise, his wish was granted, and he lived happily ever after with his new family on the edge of the magical forest.
 \`
 `;
 
@@ -58,7 +61,7 @@ What is its pronunciation in Mandarin?
 What are its senses?
 How common is it? Is it used in speech, writing, or both?
 Give three to three example sentences.
-Suggest three mnemonics for remembering the meanings of {{word}}, based on its characters.
+Based on the meanings of the characters, explain why word has the meaning that it does.
 
 Use this template as an example. Use this exact format, with the specific fields as named, and include all of the information requested.
 
@@ -74,11 +77,12 @@ The word 你好 is a common greeting used in both speech and writing. It can be 
 1. 你好，我是玛丽。 (nǐ hǎo, wǒ shì mǎ lì) - Hello, I am Mary.
 2. 你好吗？ (nǐ hǎo ma?) - How are you?
 3. 他向我打了个招呼，说了声“你好”。 (tā xiàng wǒ dǎ le gè zhāo hu，shuō le shēng "nǐ hǎo") - He greeted me and said "hello".
+4. …
+5. …
 
-# Menmonics
-1. 你 (nǐ) means "you" and 好 (hǎo) means "good", so 你好 is a friendly greeting to say "you are good".
-2. The character 好 (hǎo) has the radical "女" which means "woman". So, 你好 can be remembered as a friendly greeting from a woman to a man.
-3. The character 好 (hǎo) is made up of the characters "子" which means "child" and "女" which means "woman". So, 你好 can be thought of as a greeting from a child to a woman or vice versa.
+# Menmonic
+The first character 你 (nǐ) means "you" and is used to refer to the person being addressed. The second character 好 (hǎo) means "good" and is used in a variety of contexts to express positivity, such as when describing something that is good or expressing approval of a situation or idea.
+Together, the characters in 你好 convey the meaning of a friendly greeting or expression of goodwill. The word is used to greet someone when meeting them for the first time or as a casual greeting in everyday conversation.
 \`
 `;
 
