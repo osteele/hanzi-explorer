@@ -1,20 +1,15 @@
-import { ArrowLeftIcon, ArrowRightIcon, CopyIcon } from "@chakra-ui/icons";
 import {
   Alert,
-  HStack,
   Heading,
-  IconButton,
   ListItem,
   OrderedList,
   Skeleton,
   Spinner,
-  Tag,
-  TagLeftIcon,
   Text,
-  Tooltip,
   UnorderedList,
   VStack,
 } from "@chakra-ui/react";
+import { isHanzi } from "../helpers";
 import {
   getMarkdownListItems,
   isOrderedList,
@@ -22,6 +17,7 @@ import {
   splitMarkdownSections,
 } from "../markdown";
 import { Completions } from "../openAIClient";
+import TextToSpeech from "./TextToSpeech";
 
 type Props = {
   requestInProgress: boolean;
@@ -81,74 +77,37 @@ function CompletionListItem({
               {title}
             </Heading>
           )}
-          {isOrderedList(content) ? (
-            <OrderedList pl="5">
-              {getMarkdownListItems(content).map((item) => (
-                <ListItem>{item}</ListItem>
-              ))}
-            </OrderedList>
-          ) : isUnorderedList(content) ? (
-            <UnorderedList pl="5">
-              {getMarkdownListItems(content).map((item) => (
-                <ListItem>{item}</ListItem>
-              ))}
-            </UnorderedList>
-          ) : (
-            <Text>{content}</Text>
-          )}
+          <ListItemContent content={content} />
         </VStack>
       ))}
     </>
   );
+}
 
-  return (
-    <VStack align="left">
-      {listItemHeader()}
-      {completion.length > 0 ? (
-        completion
-          .split(/\n+/)
-          .map((text, i) => <Text style={{ marginBottom: 2 }}>{text}</Text>)
-      ) : (
-        <Skeleton />
-      )}
-      {requestInProgress && <Spinner size="xl" />}
-    </VStack>
+type ListItemContentProps = {
+  content: string;
+};
+
+function ListItemContent({ content }: ListItemContentProps) {
+  const isOrdered = isOrderedList(content);
+  const isUnordered = isUnorderedList(content);
+  const isList = isOrdered || isUnordered;
+
+  const items = isList
+    ? getMarkdownListItems(content).map((item) => insertTextToSpeech(item))
+    : [insertTextToSpeech(content)];
+  const listItems = items.map((item) => <ListItem>{item}</ListItem>);
+  return items.length === 1 ? (
+    <Text>{items[0]}</Text>
+  ) : isOrdered ? (
+    <OrderedList pl="5">{listItems}</OrderedList>
+  ) : (
+    <UnorderedList pl="5">{listItems}</UnorderedList>
   );
+}
 
-  function listItemHeader() {
-    return (
-      <HStack>
-        {title && (
-          <h2
-            style={{
-              fontSize: "large",
-              color: "#444",
-              display: "inline-block",
-            }}
-          >
-            title
-          </h2>
-        )}
-        {/* <Tooltip
-          label="Replace prompt by result"
-          style={{ verticalAlign: "top", border: "1px solid red" }}
-        >
-          <IconButton
-            aria-label="Replace prompt by result"
-            variant="outline"
-            icon={<ArrowUpIcon />}
-            onClick={() => setPrompt(getResultText())}
-          />
-        </Tooltip> */}
-        <Tooltip label="Copy result">
-          <IconButton
-            aria-label="Copy result"
-            variant="outline"
-            icon={<CopyIcon />}
-            onClick={() => navigator.clipboard.writeText(completion)}
-          />
-        </Tooltip>
-      </HStack>
-    );
-  }
+function insertTextToSpeech(text: string) {
+  return text
+    .split(/([\u4e00-\u9fa5]+)/)
+    .map((s) => (isHanzi(s) ? <TextToSpeech text={s} /> : <span>{s}</span>));
 }
