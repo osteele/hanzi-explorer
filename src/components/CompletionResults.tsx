@@ -92,7 +92,6 @@ function ListItemContent({ content }: ListItemContentProps) {
   const isOrdered = isOrderedList(content);
   const isUnordered = isUnorderedList(content);
   const isList = isOrdered || isUnordered;
-
   const items = isList
     ? getMarkdownListItems(content).map((item) => insertTextToSpeech(item))
     : [insertTextToSpeech(content)];
@@ -108,6 +107,6 @@ function ListItemContent({ content }: ListItemContentProps) {
 
 function insertTextToSpeech(text: string) {
   return text
-    .split(/([\u4e00-\u9fa5]+)/)
+    .split(/([\u4e00-\u9fa5][\u4e00-\u9fa5。《》,!?:;]*)/)
     .map((s) => (isHanzi(s) ? <TextToSpeech text={s} /> : <span>{s}</span>));
 }

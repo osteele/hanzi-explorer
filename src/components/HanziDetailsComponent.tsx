@@ -1,8 +1,13 @@
 import { Box } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { APIKeyContext } from "../APIKeyContext";
+import { SettingsContext } from "../SettingsContext";
 import { Completions, getCompletions } from "../openAIClient";
-import { chooseTemplate, identifyWordType } from "../prompts";
+import {
+  chooseTemplate,
+  identifyWordType,
+  interestsTemplate,
+} from "../prompts";
 import { CompletionResults as CompletionsComponent } from "./CompletionResults";
 import { HanziWordInputComponent } from "./HanziWordInputComponent";
 
@@ -17,6 +22,7 @@ const DefaultParameters = {
 
 function HanziDetailsComponent() {
   const { apiKey } = useContext(APIKeyContext)!;
+  const { interests } = useContext(SettingsContext)!;
   const [word, setWord] = useState("");
 
   const [completions, setCompletions] = useState<Completions | null>(null);
@@ -34,7 +40,12 @@ function HanziDetailsComponent() {
     }
 
     const template = chooseTemplate(word, wordType);
-    const prompt = template.replaceAll("{{word}}", cleanString);
+    const interestsPrompt = interests.length
+      ? interestsTemplate.replaceAll("{{interests}}", interests.join(", "))
+      : "";
+    const prompt = template
+      .replaceAll("{{word}}", cleanString)
+      .replaceAll("{{interests}}", interestsPrompt);
 
     try {
       setCompletions(null);

@@ -1,5 +1,6 @@
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import APIKeyForm from "./APIKeyForm";
+import SettingsComponent from "./SettingsComponent";
 
 export function Header() {
   return (
@@ -21,6 +22,7 @@ export function Header() {
       <Box textAlign="right" w="40" p={4} fontFamily="body">
         <APIKeyForm />
       </Box>
+      <SettingsComponent />
     </Flex>
   );
 }

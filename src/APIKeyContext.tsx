@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 
-export const API_KEY_STORAGE_KEY = "openai_api_key";
+const API_KEY_STORAGE_KEY = "openai_api_key";
 
 type APIKeyContextType = {
   apiKey: string | null;

@@ -1,5 +1,8 @@
 import { getHanziCount, isHanzi, isPinyin } from "./helpers";
 
+export const interestsTemplate = `Try to select words, examples, and mnemonics related to the following area(s): {{interests}}.
+Choose example sentences related to these areas.`;
+
 export const singleCharacterTemplate = `Tell me about the character {{word}}.
 Use simplified Chinese characters if possible.
 What is are its sounds and meanings?
@@ -10,10 +13,18 @@ If it is composed of other characters, what are they, and what are their meaning
 List the most common words that it occurs in, and their meanings, by semantic category.
 Based on these menaings, what are the senses of {{word}}?
 What are some synonyms, and how do they differ?
-Based on the shape and meaning of the character, make up three stories that can be used as mnemonics.
+Make up three stories that can be used as mnemonics.
+These stories should be related to the meaning and shape of the word, and meaning of its components.
+The stories should be short, interesting and memorable.
+The stories should be related to the senses of the word.
+The stories should be related to the senses of the word's components.
+Include the hanzi of the words components in the stories.
 
-Follow this example. Use this exact format, with the specific fields as named, and include all of the information requested.
+Follow the following example.
+Use this exact format, with the specific fields as named, and include all of the information requested.
+Except don't use "…" as examples, use real examples.
 The Words section should only have words, not sentences comprised of multiple words.
+{{interests}}
 
 \`
 # Character
@@ -60,10 +71,13 @@ Use simplified Chinese characters if possible.
 What is its pronunciation in Mandarin?
 What are its senses?
 How common is it? Is it used in speech, writing, or both?
-Give three to three example sentences.
+Give three to five example sentences.
 Based on the meanings of the characters, explain why word has the meaning that it does.
 
-Use this template as an example. Use this exact format, with the specific fields as named, and include all of the information requested.
+Use this template as an example.
+Use this exact format, with the specific fields as named, and include all of the information requested.
+Except don't use "…" as examples, use real examples.
+{{interests}}
 
 \`
 # Pronunciation
@@ -77,10 +91,8 @@ The word 你好 is a common greeting used in both speech and writing. It can be 
 1. 你好，我是玛丽。 (nǐ hǎo, wǒ shì mǎ lì) - Hello, I am Mary.
 2. 你好吗？ (nǐ hǎo ma?) - How are you?
 3. 他向我打了个招呼，说了声“你好”。 (tā xiàng wǒ dǎ le gè zhāo hu，shuō le shēng "nǐ hǎo") - He greeted me and said "hello".
-4. …
-5. …
 
-# Menmonic
+# Explanation
 The first character 你 (nǐ) means "you" and is used to refer to the person being addressed. The second character 好 (hǎo) means "good" and is used in a variety of contexts to express positivity, such as when describing something that is good or expressing approval of a situation or idea.
 Together, the characters in 你好 convey the meaning of a friendly greeting or expression of goodwill. The word is used to greet someone when meeting them for the first time or as a casual greeting in everyday conversation.
 \`
