@@ -10,7 +10,6 @@ import {
   UnorderedList,
   VStack,
 } from "@chakra-ui/react";
-import { isHanzi } from "../helpers";
 import {
   getMarkdownListItems,
   isOrderedList,
@@ -75,11 +74,7 @@ function CompletionListItem(props: CompletionListItemProps) {
   );
 }
 
-type ListItemContentProps = {
-  content: string;
-};
-
-function ListItemContent({ content }: ListItemContentProps) {
+function ListItemContent({ content }: { content: string }) {
   const isOrdered = isOrderedList(content);
   const isUnordered = isUnorderedList(content);
   const isList = isOrdered || isUnordered;
@@ -96,8 +91,17 @@ function ListItemContent({ content }: ListItemContentProps) {
   );
 }
 
+const hanziSentencePattern =
+  /([\u4e00-\u9fa5][\u4e00-\u9fa5。，！？：；（）《》]*)/;
+
 function insertTextToSpeech(text: string) {
   return text
-    .split(/([\u4e00-\u9fa5][\u4e00-\u9fa5。《》,!?:;]*)/)
-    .map((s) => (isHanzi(s) ? <TextToSpeech text={s} /> : <span>{s}</span>));
+    .split(hanziSentencePattern)
+    .map((s) =>
+      hanziSentencePattern.test(s) ? (
+        <TextToSpeech text={s} />
+      ) : (
+        <span>{s}</span>
+      )
+    );
 }
