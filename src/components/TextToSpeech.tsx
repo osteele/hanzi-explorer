@@ -29,25 +29,18 @@ const TextToSpeech = ({ text }: Props) => {
 
   return (
     <>
-      <span>{text}</span>
-      <IconButton
-        size="xs"
-        bg="white"
-        p={0}
-        m={0}
-        icon={
-          <Icon
-            as={isSpeaking ? FaPause : FaPlay}
-            w={2}
-            h={2}
-            verticalAlign="super"
-          />
-        }
-        aria-label={isSpeaking ? "Stop speaking" : "Speak"}
+      {/* Use an Icon instead of an IconButton, because I haven't figured out how to make the latter compact enough. */}
+      <Icon
+        as={isSpeaking ? FaPause : FaPlay}
         onClick={isSpeaking ? handleStop : handleSpeak}
-        color={playIconColor}
-        isLoading={isSpeaking}
+        aria-label={isSpeaking ? "Stop speaking" : "Speak"}
+        color="blue.300"
+        verticalAlign="center"
+        w={2}
+        h={2}
+        mr={1}
       />
+      <span>{text}</span>
     </>
   );
 };
