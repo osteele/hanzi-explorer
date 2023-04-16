@@ -33,9 +33,6 @@ The Words section should only have words, not sentences comprised of multiple wo
 # Pronunciation
 chuáng
 
-# Frequency
-This character is very common and is used in both speech and writing.
-
 # Senses
 The senses of 床 include bed, couch, and other similar pieces of furniture used for resting or sleeping.
 
@@ -56,13 +53,16 @@ The senses of 床 include bed, couch, and other similar pieces of furniture used
 # Components
 - 床 is composed of two other characters: 木 (mù) meaning wood and 广 (guǎng) meaning wide. This suggests that the bed is a wide piece of furniture made of wood. 木 is a sound component.
 
+# Frequency
+This character is very common and is used in both speech and writing.
+
 # Synonyms
 Some synonyms for 床 include 床榻 (chuáng tà) and 床位 (chuáng wèi), which both refer to a sleeping place or bed. However, they differ in that 床榻 often refers to a traditional Chinese-style bed, while 床位 can refer to a bed in a hospital or dormitory.
 
 # Mnemonics
-1. Once upon a time, there was a woodcutter who had a very wide bed made of wood. He loved to sleep on it at night, but during the day, he would chop wood with his axe. The sound of his axe echoed throughout the forest, and the animals would come to watch him work. They were amazed by his strength and determination. Whenever the woodcutter got tired, he would take a nap on his wide wooden bed, and the animals would keep watch over him until he woke up.
-2. Long ago, a wise old man lived in a small village. He had a wooden bed that was so wide, it could fit three people. The villagers would come to him for advice and guidance, and the old man would listen to their problems while lying on his bed. He would stroke his beard thoughtfully and offer sage advice, which the villagers would always take to heart. When the old man passed away, the villagers built a shrine in his honor and placed his wide wooden bed inside as a symbol of his wisdom and compassion.
-3. In a far-off land, there was a magical forest where the trees were as tall as mountains. At the heart of the forest stood a giant wooden bed, so wide that it could fit an entire village. Legend had it that whoever slept on the bed would be granted three wishes. Many people came from far and wide to try their luck, but few were granted their wishes. One day, a kind-hearted orphan stumbled upon the bed and made a simple wish: for a home and a family. To his surprise, his wish was granted, and he lived happily ever after with his new family on the edge of the magical forest.
+1. A bed is made of wood 木 and is wide 广.
+2. The horizontal stroke in 床 looks like the mattress of a bed. The vertical strokes are the legs of the bed.
+3. The bed exapnds 广 in all directions, like a tree 木.
 \`
 `;
 
