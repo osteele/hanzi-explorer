@@ -4,6 +4,7 @@ import {
   ListItem,
   OrderedList,
   Skeleton,
+  SkeletonText,
   Spinner,
   Text,
   UnorderedList,
@@ -28,33 +29,26 @@ type Props = {
   setPrompt: (prompt: string) => void;
 };
 
-export const CompletionResults = ({
-  completions,
-  error,
-  setPrompt,
-  requestInProgress,
-}: Props) => (
-  <>
-    {error && <Alert status="error">{error.message}</Alert>}
-    {completions && (
-      <VStack align="left">
-        {completions.map(({ completion }, index) =>
-          CompletionListItem({
-            completion,
-            requestInProgress,
-            setPrompt,
-          })
-        )}
-      </VStack>
-    )}
-    {requestInProgress && (
-      <>
-        <Spinner size="xl" />
-        <Skeleton />
-      </>
-    )}
-  </>
-);
+export function CompletionResults(props: Props) {
+  const { completions, error, setPrompt, requestInProgress } = props;
+  return (
+    <>
+      {error && <Alert status="error">{error.message}</Alert>}
+      {completions && (
+        <VStack align="left">
+          {completions.map(({ completion }, index) =>
+            CompletionListItem({
+              completion,
+              requestInProgress,
+              setPrompt,
+            })
+          )}
+        </VStack>
+      )}
+      <SkeletonText isLoaded={!requestInProgress} />
+    </>
+  );
+}
 
 type CompletionListItemProps = {
   completion: string;
@@ -62,11 +56,8 @@ type CompletionListItemProps = {
   setPrompt: (prompt: string) => void;
 };
 
-function CompletionListItem({
-  completion,
-  requestInProgress,
-  setPrompt,
-}: CompletionListItemProps) {
+function CompletionListItem(props: CompletionListItemProps) {
+  const { completion, requestInProgress, setPrompt } = props;
   const sections = splitMarkdownSections(completion);
   return (
     <>

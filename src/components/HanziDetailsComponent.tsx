@@ -55,7 +55,10 @@ function HanziDetailsComponent() {
         apiKey: apiKey!,
         ...DefaultParameters,
         prompt,
-        onProgress: (choices) => setCompletions(choices),
+        onProgress: (choices) => {
+          // make a copy, so that React will notice that the state has changed
+          setCompletions([...choices]);
+        },
       });
       setCompletions(response.data.choices);
     } catch (error: any) {
