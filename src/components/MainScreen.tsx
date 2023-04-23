@@ -8,8 +8,8 @@ import {
   identifyWordType,
   interestsTemplate,
 } from "../prompts";
-import { CompletionResults as CompletionsComponent } from "./CompletionResults";
-import { HanziWordInputComponent } from "./HanziWordInputComponent";
+import { PromptInput } from "./PromptInput";
+import { ResponseModules as CompletionsComponent } from "./ResponseModules";
 
 const DefaultParameters = {
   model: "gpt-3.5-turbo",
@@ -20,7 +20,7 @@ const DefaultParameters = {
   numResults: 1,
 };
 
-function HanziDetailsComponent() {
+function MainScreen() {
   const { apiKey } = useContext(APIKeyContext)!;
   const { interests } = useContext(SettingsContext)!;
   const [word, setWord] = useState("");
@@ -73,7 +73,7 @@ function HanziDetailsComponent() {
 
   return (
     <Box padding="10px">
-      <HanziWordInputComponent
+      <PromptInput
         onSubmit={handleSubmit}
         isDisabled={!apiKey || requestInProgress || word.trim().length === 0}
         word={word}
@@ -90,4 +90,4 @@ function HanziDetailsComponent() {
   );
 }
 
-export default HanziDetailsComponent;
+export default MainScreen;

@@ -1,8 +1,8 @@
 import { Flex } from "@chakra-ui/react";
 import "./App.css";
 import { Providers } from "./Providers";
-import HanziDetailsComponent from "./components/HanziDetailsComponent";
 import { Header } from "./components/Header";
+import MainScreen from "./components/MainScreen";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
           }}
         >
           <Header />
-          <HanziDetailsComponent />
+          <MainScreen />
         </Flex>
       </div>
     </Providers>

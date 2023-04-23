@@ -21,12 +21,7 @@ type Props = {
   onSubmit: () => void;
 };
 
-export function HanziWordInputComponent({
-  word,
-  setWord,
-  isDisabled,
-  onSubmit,
-}: Props) {
+export function PromptInput({ word, setWord, isDisabled, onSubmit }: Props) {
   return (
     <VStack align="left" mb="8">
       {/* <HStack align="baseline">

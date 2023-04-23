@@ -3,9 +3,7 @@ import {
   Heading,
   ListItem,
   OrderedList,
-  Skeleton,
   SkeletonText,
-  Spinner,
   Text,
   UnorderedList,
   VStack,
@@ -28,7 +26,7 @@ type Props = {
   setPrompt: (prompt: string) => void;
 };
 
-export function CompletionResults(props: Props) {
+export function ResponseModules(props: Props) {
   const { completions, error, setPrompt, requestInProgress } = props;
   return (
     <>

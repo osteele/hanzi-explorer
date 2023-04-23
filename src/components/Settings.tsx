@@ -15,7 +15,7 @@ import React, { useContext } from "react";
 import { FiSettings } from "react-icons/fi";
 import { SettingsContext } from "../SettingsContext";
 
-const SettingsComponent = () => {
+const Settings = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { interests, saveInterests } = useContext(SettingsContext)!;
   const btnRef = React.useRef(null);
@@ -70,4 +70,4 @@ const SettingsComponent = () => {
   );
 };
 
-export default SettingsComponent;
+export default Settings;
