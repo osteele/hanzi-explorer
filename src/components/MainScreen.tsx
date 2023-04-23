@@ -5,7 +5,7 @@ import { SettingsContext } from "../SettingsContext";
 import { Completions, getCompletions } from "../openAIClient";
 import {
   chooseTemplate,
-  identifyWordType,
+  identifyInputType,
   interestsTemplate,
 } from "../prompts";
 import { PromptInput } from "./PromptInput";
@@ -31,7 +31,7 @@ function MainScreen() {
 
   const handleSubmit = async () => {
     const cleanString = word.replace(/\s+|\./g, "").trim();
-    const wordType = identifyWordType(word);
+    const wordType = identifyInputType(word);
     if (!wordType) {
       setError({
         message: "Please enter a Mandarin character or word, or valid pinyin.",
@@ -45,7 +45,7 @@ function MainScreen() {
       : "";
     const prompt = template.format({
       word: cleanString,
-      interests: interestsPrompt,
+      interestsPrompt,
     });
 
     try {

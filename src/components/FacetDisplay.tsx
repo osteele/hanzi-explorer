@@ -2,6 +2,7 @@ import {
   Heading,
   ListItem,
   OrderedList,
+  Skeleton,
   Text,
   UnorderedList,
   VStack,
@@ -14,11 +15,12 @@ import {
 } from "../markdown";
 import TextToSpeech from "./TextToSpeech";
 
-type CompletionListItemProps = {
+type Props = {
   completion: string;
   requestInProgress: boolean;
 };
-export function FacetDisplay(props: CompletionListItemProps) {
+
+export function FacetDisplay(props: Props) {
   const { completion, requestInProgress } = props;
   const sections = splitMarkdownSections(completion);
   return (
@@ -33,9 +35,11 @@ export function FacetDisplay(props: CompletionListItemProps) {
           <ListItemContent content={content} />
         </VStack>
       ))}
+      <Skeleton isLoaded={!requestInProgress} />
     </>
   );
 }
+
 function ListItemContent({ content }: { content: string }) {
   const isOrdered = isOrderedList(content);
   const isUnordered = isUnorderedList(content);
@@ -52,8 +56,10 @@ function ListItemContent({ content }: { content: string }) {
     <UnorderedList pl="5">{listItems}</UnorderedList>
   );
 }
+
 const hanziSentencePattern =
   /([\u4e00-\u9fa5][\u4e00-\u9fa5。，！？：；（）《》]*)/;
+
 function insertTextToSpeech(text: string) {
   return text
     .split(hanziSentencePattern)

@@ -21,7 +21,7 @@ Choose example sentences related to these areas.`,
   ["interests"]
 );
 
-export const singleCharacterTemplate = new PromptTemplate(
+export const singleHanziInfoTemplate = new PromptTemplate(
   `Tell me about the character {word}.
 Use simplified Chinese characters if possible.
 What is are its sounds and meanings?
@@ -30,7 +30,7 @@ What are the most frequent words that it occurs in?
 Give three to five example sentences.
 If it is composed of other characters, what are they, and what are their meanings?
 List the most common words that it occurs in, and their meanings, by semantic category.
-Based on these menaings, what are the senses of {{word}}?
+Based on these meanings, what are the senses of {word}?
 What are some synonyms, and how do they differ?
 Make up three stories that can be used as mnemonics.
 These stories should be related to the meaning and shape of the word, and meaning of its components.
@@ -41,9 +41,8 @@ Include the hanzi of the words components in the stories.
 
 Follow the following example.
 Use this exact format, with the specific fields as named, and include all of the information requested.
-Except don't use "…" as examples, use real examples.
 The Words section should only have words, not sentences comprised of multiple words.
-{interests}
+{interestsPrompt}
 
 \`
 # Character
@@ -84,10 +83,10 @@ Some synonyms for 床 include 床榻 (chuáng tà) and 床位 (chuáng wèi), wh
 3. The bed exapnds 广 in all directions, like a tree 木.
 \`
 `,
-  ["word", "interests"]
+  ["word", "interestsPrompt"]
 );
 
-export const multiCharacterTemplate = new PromptTemplate(
+export const multipleHanziInfoTemplate = new PromptTemplate(
   `Tell me about the word {word}.
 Use simplified Chinese characters if possible.
 What is its pronunciation in Mandarin?
@@ -99,11 +98,11 @@ Based on the meanings of the characters, explain why word has the meaning that i
 Use this template as an example.
 Use this exact format, with the specific fields as named, and include all of the information requested.
 Except don't use "…" as examples, use real examples.
-{interests}
+{interestsPrompt}
 
 \`
 # Pronunciation
-nǐ hǎo
+你好 (nǐ hǎo)
 
 # Meaning
 The word 你好 is a common greeting used in both speech and writing. It can be translated to "hello" or "hi" in English.
@@ -119,13 +118,13 @@ The first character 你 (nǐ) means "you" and is used to refer to the person bei
 Together, the characters in 你好 convey the meaning of a friendly greeting or expression of goodwill. The word is used to greet someone when meeting them for the first time or as a casual greeting in everyday conversation.
 \`
 `,
-  ["word", "interests"]
+  ["word", "interestsPrompt"]
 );
 
-export const pinyinTemplate = new PromptTemplate(
+export const pinyinTranslationTemplate = new PromptTemplate(
   `Tell me about the pinyin {word}.
 Use simplified Chinese characters if possible.
-Which Hanzi have the pinyin "{{word}}"?
+Which Hanzi have the pinyin "{word}"?
 First, list Hanzi that can be used as standalone words, from most to least common.
 Then, list Hanzi that can only be used as parts of words, from most to least common.
 
@@ -165,10 +164,10 @@ Frequency rank: 3247
 Example: 铀是一种放射性元素。 (Yóu shì yī zhǒng fàngshèxìng yuánsù.) – Uranium is a radioactive element.
 \`
   `.replace(/Frequency rank: \d+\n/g, ""),
-  ["word", "interests"]
+  ["word", "interestsPrompt"]
 );
 
-export function identifyWordType(word: string) {
+export function identifyInputType(word: string): "hanzi" | "pinyin" | null {
   if (isPinyin(word)) {
     return "pinyin";
   } else if (isHanzi(word)) {
@@ -179,12 +178,14 @@ export function identifyWordType(word: string) {
   }
 }
 
-export function chooseTemplate(word: string, type: string) {
+export function chooseTemplate(word: string, type: string): PromptTemplate {
   if (type === "hanzi") {
     const hanziCount = getHanziCount(word);
-    return hanziCount === 1 ? singleCharacterTemplate : multiCharacterTemplate;
+    return hanziCount === 1
+      ? singleHanziInfoTemplate
+      : multipleHanziInfoTemplate;
   } else if (type === "pinyin") {
-    return pinyinTemplate;
+    return pinyinTranslationTemplate;
   } else {
     throw new Error("Invalid word type");
   }
