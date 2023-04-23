@@ -24,16 +24,14 @@ Choose example sentences related to these areas.`,
 export const singleHanziInfoTemplate = new PromptTemplate(
   `Tell me about the character {word}.
 Use simplified Chinese characters if possible.
-What is are its sounds and meanings?
-How common is it? Is it used in speech, writing, or both?
 What are the most frequent words that it occurs in?
 Give three to five example sentences.
-If it is composed of other characters, what are they, and what are their meanings?
 List the most common words that it occurs in, and their meanings, by semantic category.
 Based on these meanings, what are the senses of {word}?
 
 Follow the following example.
 Use this exact format, with the specific fields as named, and include all of the information requested.
+Do not add additional sections.
 The Words section should only have words, not sentences comprised of multiple words.
 {interestsPrompt}
 
@@ -41,7 +39,7 @@ The Words section should only have words, not sentences comprised of multiple wo
 # Character
 床 （chuáng — bed, couch
 
-# Senses
+# Meaning
 The senses of 床 include bed, couch, and other similar pieces of furniture used for resting or sleeping.
 
 # Words
@@ -62,10 +60,12 @@ The senses of 床 include bed, couch, and other similar pieces of furniture used
 export const singleHanziAdditionalInfoTemplate = new PromptTemplate(
   `Tell me about the character {word}.
 Use simplified Chinese characters if possible.
+How common is it? Is it used in speech, writing, or both?
 What are some synonyms, and how do their meanings differ from those of {word}?
 
 Follow the following example.
 Use this exact format, with the specific fields as named, and include all of the information requested.
+Do not add additional sections.
 \`
 # Frequency
 This character is very common and is used in both speech and writing.
@@ -92,13 +92,16 @@ Except use examples for {word} instead of the example word 床 that is used in t
 );
 
 export const singleHanziMnemonicsTemplate = new PromptTemplate(
-  `If {word} is composed of other characters, what are they, and what are their meanings?
-Make up three stories that can be used as mnemonics.
+  `If {word} is composed of other components, what are they, and what are their meanings?
+Use these components to make up three stories that can be used as mnemonics.
 These stories should be related to the meaning and shape of the word, and meaning of its components.
+Include the hanzi of the word's components in the stories.
+
+If the word is not composed of components, make up three mnemonic stories that use its shape.
+
 The stories should be short, interesting and memorable.
 The stories should be related to the senses of the word.
 The stories should be related to the senses of the word's components.
-Include the hanzi of the words components in the stories.
 
 \`
 # Components
@@ -112,7 +115,7 @@ Include the hanzi of the words components in the stories.
   ["word", "interestsPrompt"]
 );
 
-export const multipleHanziInfoTemplate = new PromptTemplate(
+export const hanziWordInfoTemplate = new PromptTemplate(
   `Tell me about the word {word}.
 Use simplified Chinese characters if possible.
 What is its pronunciation in Mandarin?
@@ -123,6 +126,7 @@ Based on the meanings of the characters, explain why word has the meaning that i
 
 Use this template as an example.
 Use this exact format, with the specific fields as named, and include all of the information requested.
+Do not add additional sections.
 {interestsPrompt}
 
 \`
@@ -152,7 +156,9 @@ Which Hanzi have the pinyin "{word}"?
 First, list Hanzi that can be used as standalone words, from most to least common.
 Then, list Hanzi that can only be used as parts of words, from most to least common.
 
-Use this template as an example. Use this exact format, with the specific fields as named, and include all of the information requested.
+Use this template as an example.
+Use this exact format, with the specific fields as named, and include all of the information requested.
+Do not add additional sections.
 
 \`
 # Standalone Words
@@ -206,7 +212,7 @@ export function chooseTemplate(
           singleHanziAdditionalInfoTemplate,
           singleHanziMnemonicsTemplate,
         ]
-      : multipleHanziInfoTemplate;
+      : hanziWordInfoTemplate;
   } else if (type === "pinyin") {
     return pinyinTranslationTemplate;
   } else {
