@@ -12,6 +12,7 @@ import {
   PopoverTrigger,
   VStack,
 } from "@chakra-ui/react";
+import { KeyboardEventHandler } from "react";
 import { MdOutlineHelpOutline } from "react-icons/md";
 
 type Props = {
@@ -22,6 +23,12 @@ type Props = {
 };
 
 export function PromptInput({ word, setWord, isDisabled, onSubmit }: Props) {
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
+    if (event.key === "Enter") {
+      onSubmit();
+    }
+  };
+
   return (
     <VStack align="left" mb="8">
       {/* <HStack align="baseline">
@@ -47,6 +54,7 @@ export function PromptInput({ word, setWord, isDisabled, onSubmit }: Props) {
         <Input
           value={word}
           onChange={(event) => setWord(event.target.value)}
+          onKeyDown={handleKeyDown}
           isRequired={true}
           size="lg"
         />
