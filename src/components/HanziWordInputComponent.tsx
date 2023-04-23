@@ -1,14 +1,18 @@
 import {
-  Box,
   Button,
   HStack,
-  Icon,
   IconButton,
   Input,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { FaInfo } from "react-icons/fa";
+import { MdOutlineHelpOutline } from "react-icons/md";
 
 type Props = {
   word: string;
@@ -23,7 +27,6 @@ export function HanziWordInputComponent({
   isDisabled,
   onSubmit,
 }: Props) {
-  const [showInfo, setShowInfo] = useState(false);
   return (
     <VStack align="left" mb="8">
       {/* <HStack align="baseline">
@@ -43,19 +46,8 @@ export function HanziWordInputComponent({
             onSubmit();
           }}
         >
-          Explain
+          Find
         </Button>
-        {/* <Icon as={FaInfo} onClick={() => setShowInfo(!showInfo)} /> */}
-        <IconButton
-          aria-label="Info"
-          icon={<FaInfo />}
-          onClick={() => setShowInfo(!showInfo)}
-          size="sm"
-          background="none"
-          colorScheme="gray"
-          color="gray.500"
-          css={{ position: "relative", top: "-10px", left: "-10px" }}
-        />
 
         <Input
           value={word}
@@ -63,15 +55,30 @@ export function HanziWordInputComponent({
           isRequired={true}
           size="lg"
         />
-      </HStack>
 
-      {showInfo && (
-        <Box fontSize="sm" color="gray.500" lineHeight={1.2}>
-          Enter a Hanzi character or word, to see a list of meanings, examples,
-          and generated menomnics. You may also enter the pinyin for a single
-          character, to see a list of matching characters.
-        </Box>
-      )}
+        <Popover>
+          <PopoverTrigger>
+            <IconButton
+              aria-label="Info"
+              icon={<MdOutlineHelpOutline />}
+              background="none"
+              colorScheme="gray"
+              color="gray.500"
+              css={{ position: "relative", top: "-10px" }}
+            />
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverHeader>What you can enter</PopoverHeader>
+            <PopoverBody>
+              Enter a Hanzi character or word, to see a list of meanings,
+              examples, and generated menomnics. You may also enter the pinyin
+              for a single character, to see a list of matching characters.
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+      </HStack>
     </VStack>
   );
 }
