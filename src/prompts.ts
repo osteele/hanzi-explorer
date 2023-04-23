@@ -1,9 +1,28 @@
 import { getHanziCount, isHanzi, isPinyin } from "./helpers";
 
-export const interestsTemplate = `Try to select words, examples, and mnemonics related to the following area(s): {{interests}}.
-Choose example sentences related to these areas.`;
+class PromptTemplate {
+  constructor(public template: string, public variables: string[]) {}
 
-export const singleCharacterTemplate = `Tell me about the character {{word}}.
+  public format(variables: Record<string, string>) {
+    let prompt = this.template;
+    for (const variable of this.variables) {
+      prompt = prompt.replace(
+        new RegExp(`{${variable}}`, "g"),
+        variables[variable]
+      );
+    }
+    return prompt;
+  }
+}
+
+export const interestsTemplate = new PromptTemplate(
+  `Try to select words, examples, and mnemonics related to the following area(s): {interests}.
+Choose example sentences related to these areas.`,
+  ["interests"]
+);
+
+export const singleCharacterTemplate = new PromptTemplate(
+  `Tell me about the character {word}.
 Use simplified Chinese characters if possible.
 What is are its sounds and meanings?
 How common is it? Is it used in speech, writing, or both?
@@ -24,7 +43,7 @@ Follow the following example.
 Use this exact format, with the specific fields as named, and include all of the information requested.
 Except don't use "…" as examples, use real examples.
 The Words section should only have words, not sentences comprised of multiple words.
-{{interests}}
+{interests}
 
 \`
 # Character
@@ -64,9 +83,12 @@ Some synonyms for 床 include 床榻 (chuáng tà) and 床位 (chuáng wèi), wh
 2. The horizontal stroke in 床 looks like the mattress of a bed. The vertical strokes are the legs of the bed.
 3. The bed exapnds 广 in all directions, like a tree 木.
 \`
-`;
+`,
+  ["word", "interests"]
+);
 
-export const multiCharacterTemplate = `Tell me about the word {{word}}.
+export const multiCharacterTemplate = new PromptTemplate(
+  `Tell me about the word {word}.
 Use simplified Chinese characters if possible.
 What is its pronunciation in Mandarin?
 What are its senses?
@@ -77,7 +99,7 @@ Based on the meanings of the characters, explain why word has the meaning that i
 Use this template as an example.
 Use this exact format, with the specific fields as named, and include all of the information requested.
 Except don't use "…" as examples, use real examples.
-{{interests}}
+{interests}
 
 \`
 # Pronunciation
@@ -96,9 +118,12 @@ The word 你好 is a common greeting used in both speech and writing. It can be 
 The first character 你 (nǐ) means "you" and is used to refer to the person being addressed. The second character 好 (hǎo) means "good" and is used in a variety of contexts to express positivity, such as when describing something that is good or expressing approval of a situation or idea.
 Together, the characters in 你好 convey the meaning of a friendly greeting or expression of goodwill. The word is used to greet someone when meeting them for the first time or as a casual greeting in everyday conversation.
 \`
-`;
+`,
+  ["word", "interests"]
+);
 
-export const pinyinTemplate = `Tell me about the pinyin {{word}}.
+export const pinyinTemplate = new PromptTemplate(
+  `Tell me about the pinyin {word}.
 Use simplified Chinese characters if possible.
 Which Hanzi have the pinyin "{{word}}"?
 First, list Hanzi that can be used as standalone words, from most to least common.
@@ -139,7 +164,9 @@ Example: 我喜欢去海边游泳。 (Wǒ xǐhuān qù hǎibiān yóuyǒng.) –
 Frequency rank: 3247
 Example: 铀是一种放射性元素。 (Yóu shì yī zhǒng fàngshèxìng yuánsù.) – Uranium is a radioactive element.
 \`
-  `.replace(/Frequency rank: \d+\n/g, "");
+  `.replace(/Frequency rank: \d+\n/g, ""),
+  ["word", "interests"]
+);
 
 export function identifyWordType(word: string) {
   if (isPinyin(word)) {

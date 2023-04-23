@@ -41,11 +41,12 @@ function HanziDetailsComponent() {
 
     const template = chooseTemplate(word, wordType);
     const interestsPrompt = interests.length
-      ? interestsTemplate.replaceAll("{{interests}}", interests.join(", "))
+      ? interestsTemplate.format({ interests: interests.join(", ") })
       : "";
-    const prompt = template
-      .replaceAll("{{word}}", cleanString)
-      .replaceAll("{{interests}}", interestsPrompt);
+    const prompt = template.format({
+      word: cleanString,
+      interests: interestsPrompt,
+    });
 
     try {
       setCompletions(null);
