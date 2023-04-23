@@ -8,17 +8,16 @@ type Props = {
     message: string;
   } | null;
   completions: Completions | null;
-  setPrompt: (prompt: string) => void;
 };
 
 export function ResponseModules(props: Props) {
-  const { completions, error, setPrompt, requestInProgress } = props;
+  const { completions, error, requestInProgress } = props;
   return (
     <>
       {error && <Alert status="error">{error.message}</Alert>}
       {completions && (
         <VStack align="left">
-          {completions.map(({ completion }, index) =>
+          {completions.map(({ completion }) =>
             FacetDisplay({
               completion,
               requestInProgress,

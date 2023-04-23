@@ -9,7 +9,7 @@ import {
   interestsTemplate,
 } from "../prompts";
 import { PromptInput } from "./PromptInput";
-import { ResponseModules as CompletionsComponent } from "./ResponseModules";
+import { ResponseModules } from "./ResponseModules";
 
 const DefaultParameters = {
   model: "gpt-3.5-turbo",
@@ -43,10 +43,12 @@ function MainScreen() {
     const interestsPrompt = interests.length
       ? interestsTemplate.format({ interests: interests.join(", ") })
       : "";
-    const prompt = template.format({
-      word: cleanString,
-      interestsPrompt,
-    });
+    const prompt = Array.isArray(template)
+      ? template.map((t) => t.format({ word: cleanString, interestsPrompt }))
+      : template.format({
+          word: cleanString,
+          interestsPrompt,
+        });
 
     try {
       setCompletions(null);
@@ -80,11 +82,10 @@ function MainScreen() {
         setWord={setWord}
       />
 
-      <CompletionsComponent
+      <ResponseModules
         completions={completions}
         error={error}
         requestInProgress={requestInProgress}
-        setPrompt={setWord}
       />
     </Box>
   );
