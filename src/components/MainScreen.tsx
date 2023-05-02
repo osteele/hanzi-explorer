@@ -2,8 +2,13 @@ import { Box } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { APIKeyContext } from "../APIKeyContext";
 import { SettingsContext } from "../SettingsContext";
+import {
+  compositionTemplates,
+  getCharacterComposition,
+} from "../getCharacterComposition";
 import { Completions, getCompletions } from "../openAIClient";
 import {
+  PromptTemplate,
   chooseTemplate,
   identifyInputType,
   interestsTemplate,
@@ -39,14 +44,31 @@ function MainScreen() {
       return;
     }
 
+    let composition = "";
+    if (wordType === "hanzi") {
+      const compositionData = await getCharacterComposition(cleanString);
+      if (compositionData) {
+        const { leftComponent, rightComponent, decompositionType } =
+          compositionData;
+        composition =
+          "The character is " +
+          new PromptTemplate(compositionTemplates[decompositionType], [
+            "first",
+            "second",
+          ]).format({ first: leftComponent, second: rightComponent });
+      }
+    }
     const template = chooseTemplate(word, wordType);
     const interestsPrompt = interests.length
       ? interestsTemplate.format({ interests: interests.join(", ") })
       : "";
     const prompt = Array.isArray(template)
-      ? template.map((t) => t.format({ word: cleanString, interestsPrompt }))
+      ? template.map((t) =>
+          t.format({ word: cleanString, composition, interestsPrompt })
+        )
       : template.format({
           word: cleanString,
+          composition,
           interestsPrompt,
         });
 

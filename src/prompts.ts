@@ -1,6 +1,6 @@
 import { getHanziCount, isHanzi, isPinyin } from "./helpers";
 
-class PromptTemplate {
+export class PromptTemplate {
   constructor(public template: string, public variables: string[]) {}
 
   public format(variables: Record<string, string>) {
@@ -23,6 +23,7 @@ Choose example sentences related to these areas.`,
 
 export const singleHanziInfoTemplate = new PromptTemplate(
   `Tell me about the character {word}.
+{composition}
 Use simplified Chinese characters if possible.
 What are the most frequent words that it occurs in?
 Give three to five example sentences.
