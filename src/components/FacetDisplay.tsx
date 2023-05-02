@@ -25,14 +25,14 @@ export function FacetDisplay(props: Props) {
   const sections = splitMarkdownSections(completion);
   return (
     <>
-      {sections.map(({ title, content }) => (
+      {sections.map(({ title, content }, i) => (
         <VStack align="left">
           {title && (
             <Heading as="h2" size="md" bg="brand.100">
               {title}
             </Heading>
           )}
-          <ListItemContent content={content} />
+          <ListItemContent key={i} content={content} />
         </VStack>
       ))}
       <Skeleton isLoaded={!requestInProgress} />

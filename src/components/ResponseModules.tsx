@@ -17,12 +17,13 @@ export function ResponseModules(props: Props) {
       {error && <Alert status="error">{error.message}</Alert>}
       {completions && (
         <VStack align="left">
-          {completions.map(({ completion }) =>
-            FacetDisplay({
-              completion,
-              requestInProgress,
-            })
-          )}
+          {completions.map(({ completion }, i) => (
+            <FacetDisplay
+              key={i}
+              completion={completion}
+              requestInProgress={requestInProgress}
+            />
+          ))}
         </VStack>
       )}
       <SkeletonText isLoaded={!requestInProgress} />
