@@ -1,7 +1,7 @@
 import {
-  compositionTemplates,
-  getCharacterComposition,
-} from "./getCharacterComposition";
+  decompositionTemplateStrings,
+  getCharacterDecomposition,
+} from "./getCharacterDecomposition";
 import { getCompletions } from "./openAIClient";
 import {
   PromptTemplate,
@@ -52,13 +52,13 @@ export async function getInputInfo({
 
   let composition = "";
   if (wordType === "hanzi") {
-    const compositionData = await getCharacterComposition(input);
+    const compositionData = await getCharacterDecomposition(input);
     if (compositionData) {
       const { leftComponent, rightComponent, decompositionType } =
         compositionData;
       composition =
         "The character is " +
-        new PromptTemplate(compositionTemplates[decompositionType], [
+        new PromptTemplate(decompositionTemplateStrings[decompositionType], [
           "first",
           "second",
         ]).format({ first: leftComponent, second: rightComponent });
