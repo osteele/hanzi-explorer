@@ -2,93 +2,32 @@ import { Box } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { APIKeyContext } from "../APIKeyContext";
 import { SettingsContext } from "../SettingsContext";
-import {
-  compositionTemplates,
-  getCharacterComposition,
-} from "../getCharacterComposition";
-import { Completions, getCompletions } from "../openAIClient";
-import {
-  PromptTemplate,
-  chooseTemplate,
-  identifyInputType,
-  interestsTemplate,
-} from "../prompts";
+import { getInputInfo } from "../getInputInfo";
+import { Completions } from "../openAIClient";
 import { PromptInput } from "./PromptInput";
 import { ResponseModules } from "./ResponseModules";
-
-const DefaultParameters = {
-  model: "gpt-3.5-turbo",
-  maxTokens: 2048,
-  temperature: 0.7,
-  presencePenalty: 0,
-  frequencyPenalty: 0,
-  numResults: 1,
-};
 
 function MainScreen() {
   const { apiKey } = useContext(APIKeyContext)!;
   const { interests } = useContext(SettingsContext)!;
-  const [word, setWord] = useState("");
+  const [input, setInput] = useState("");
 
   const [completions, setCompletions] = useState<Completions | null>(null);
   const [error, setError] = useState<{ message: string } | null>(null);
   const [requestInProgress, setRequestInProgress] = useState(false);
 
   const handleSubmit = async () => {
-    const cleanString = word.replace(/\s+|\./g, "").trim();
-    const wordType = identifyInputType(word);
-    if (!wordType) {
-      setError({
-        message: "Please enter a Mandarin character or word, or valid pinyin.",
-      });
-      return;
-    }
-
-    let composition = "";
-    if (wordType === "hanzi") {
-      const compositionData = await getCharacterComposition(cleanString);
-      if (compositionData) {
-        const { leftComponent, rightComponent, decompositionType } =
-          compositionData;
-        composition =
-          "The character is " +
-          new PromptTemplate(compositionTemplates[decompositionType], [
-            "first",
-            "second",
-          ]).format({ first: leftComponent, second: rightComponent });
-      }
-    }
-    const template = chooseTemplate(word, wordType);
-    const interestsPrompt = interests.length
-      ? interestsTemplate.format({ interests: interests.join(", ") })
-      : "";
-    const prompt = Array.isArray(template)
-      ? template.map((t) =>
-          t.format({ word: cleanString, composition, interestsPrompt })
-        )
-      : template.format({
-          word: cleanString,
-          composition,
-          interestsPrompt,
-        });
-
     try {
-      setCompletions(null);
-      setError(null);
-      setRequestInProgress(true);
-      const response = await getCompletions({
-        apiKey: apiKey!,
-        ...DefaultParameters,
-        prompt,
-        onProgress: (choices) => {
-          // make a copy, so that React will notice that the state has changed
-          setCompletions([...choices]);
-        },
+      await getInputInfo({
+        input,
+        apiKey,
+        interests,
+        setError,
+        setCompletions,
       });
-      setCompletions(response.data.choices);
     } catch (error: any) {
-      const message =
-        error?.message ?? "An error occurred during the OpenAI request";
+      console.error(error);
+      const message = error?.message ?? "An error occurred during the request.";
       setError({ message });
     } finally {
       setRequestInProgress(false);
@@ -99,9 +38,9 @@ function MainScreen() {
     <Box padding="10px">
       <PromptInput
         onSubmit={handleSubmit}
-        isDisabled={!apiKey || requestInProgress || word.trim().length === 0}
-        word={word}
-        setWord={setWord}
+        isDisabled={!apiKey || requestInProgress || input.trim().length === 0}
+        word={input}
+        setWord={setInput}
       />
 
       <ResponseModules
