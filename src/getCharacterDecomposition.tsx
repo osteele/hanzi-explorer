@@ -1,4 +1,4 @@
-const API_SERVER = import.meta.env.VITE_API_SERVER || "http://localhost:3100";
+const API_SERVER = process.env.API_SERVER || "http://localhost:3100";
 
 enum DecompositionType {
   // non composition (second character is always a deformed version of another character)
