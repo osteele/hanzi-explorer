@@ -4,11 +4,11 @@ import {
 } from "./getCharacterDecomposition";
 import { getCompletions } from "./openAIClient";
 import {
-  PromptTemplate,
   chooseTemplate,
   identifyInputType,
   interestsTemplate,
 } from "./prompts";
+import { PromptTemplate } from "./PromptTemplate";
 
 const ModelParameters = {
   model: "gpt-3.5-turbo",
@@ -66,13 +66,15 @@ export async function getInputInfo({
   }
   const template = chooseTemplate(input, wordType);
   const interestsPrompt = interests.length
-    ? interestsTemplate.format({ interests: interests.join(", ") })
+    ? await interestsTemplate.format({ interests: interests.join(", ") })
     : "";
   const prompt = Array.isArray(template)
-    ? template.map((t) =>
-        t.format({ word: input, composition, interestsPrompt })
+    ? await Promise.all(
+        template.map((t) =>
+          t.format({ word: input, composition, interestsPrompt })
+        )
       )
-    : template.format({
+    : await template.format({
         word: input,
         composition,
         interestsPrompt,

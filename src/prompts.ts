@@ -1,19 +1,5 @@
+import { PromptTemplate } from "./PromptTemplate";
 import { getHanziCount, isHanzi, isPinyin } from "./helpers";
-
-export class PromptTemplate {
-  constructor(public template: string, public variables: string[]) {}
-
-  public format(variables: Record<string, string>) {
-    let prompt = this.template;
-    for (const variable of this.variables) {
-      prompt = prompt.replace(
-        new RegExp(`{${variable}}`, "g"),
-        variables[variable]
-      );
-    }
-    return prompt;
-  }
-}
 
 export const interestsTemplate = new PromptTemplate(
   `Try to select words, examples, and mnemonics related to the following area(s): {interests}.
