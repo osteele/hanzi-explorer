@@ -82,8 +82,8 @@ export async function getCompletions({
         prompt: undefined,
       }
     : modelParameters;
-  if (process.env.LOG_REQUESTS === "true") {
-    console.log("requesting", prompt);
+  if (process.env.DEBUG) {
+    console.debug("requesting", prompt);
   }
   const response = await fetch(`https://api.openai.com/v1/${endpoint}`, {
     method: "POST",

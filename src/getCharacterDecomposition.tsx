@@ -1,5 +1,9 @@
 const API_SERVER = process.env.API_SERVER || "http://localhost:3100";
 
+if (process.env.DEBUG) {
+  console.debug(`API_SERVER=${API_SERVER}`);
+}
+
 enum DecompositionType {
   // non composition (second character is always a deformed version of another character)
   GraphicalPrimitive = "一",
@@ -53,7 +57,7 @@ export async function getCharacterDecomposition(
   character: string
 ): Promise<DecompositionRecord | null> {
   try {
-    const url = `${API_SERVER}/character/${character}/composition`;
+    const url = `${API_SERVER}/character/${character}/decomposition`;
     const response = await fetch(url, {
       headers: { contentType: "application/json" },
     });
