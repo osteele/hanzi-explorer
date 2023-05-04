@@ -50,33 +50,21 @@ export async function getInputInfo({
     return;
   }
 
-  let composition = "";
-  if (wordType === "hanzi") {
-    const compositionData = await getCharacterDecomposition(input);
-    if (compositionData) {
-      const { leftComponent, rightComponent, decompositionType } =
-        compositionData;
-      composition =
-        "The character is " +
-        new PromptTemplate(decompositionTemplateStrings[decompositionType], [
-          "first",
-          "second",
-        ]).format({ first: leftComponent, second: rightComponent });
-    }
-  }
-  const template = chooseTemplate(input, wordType);
   const interestsPrompt = interests.length
     ? await interestsTemplate.format({ interests: interests.join(", ") })
     : "";
+  const components =
+    wordType === "hanzi" ? getCharacterDecompositionDescription(input) : "";
+  const template = chooseTemplate(input, wordType, components);
   const prompt = Array.isArray(template)
     ? await Promise.all(
         template.map((t) =>
-          t.format({ word: input, composition, interestsPrompt })
+          t.format({ word: input, components, interestsPrompt })
         )
       )
     : await template.format({
         word: input,
-        composition,
+        components,
         interestsPrompt,
       });
 
@@ -98,5 +86,24 @@ export async function getInputInfo({
     const message =
       error?.message ?? "An error occurred during the OpenAI request";
     setError({ message });
+  }
+}
+
+async function getCharacterDecompositionDescription(
+  character: string
+): Promise<string> {
+  const compositionData = await getCharacterDecomposition(character);
+  if (compositionData) {
+    const { leftComponent, rightComponent, decompositionType } =
+      compositionData;
+    return (
+      "The character is " +
+      (await new PromptTemplate(
+        decompositionTemplateStrings[decompositionType],
+        ["first", "second"]
+      ).format({ first: leftComponent, second: rightComponent }))
+    );
+  } else {
+    return "";
   }
 }

@@ -1,5 +1,7 @@
+import { PromptBuilder } from "./PromptBuilder";
 import { PromptTemplate } from "./PromptTemplate";
 import { getHanziCount, isHanzi, isPinyin } from "./helpers";
+import { PromiseOrValue } from "./utils";
 
 export const interestsTemplate = new PromptTemplate(
   `Try to select words, examples, and mnemonics related to the following area(s): {interests}.
@@ -9,7 +11,7 @@ Choose example sentences related to these areas.`,
 
 export const singleHanziInfoTemplate = new PromptTemplate(
   `Tell me about the character {word}.
-{composition}
+{components}
 Use simplified Chinese characters if possible.
 What are the most frequent words that it occurs in?
 Give three to five example sentences.
@@ -41,7 +43,7 @@ The senses of 床 include bed, couch, and other similar pieces of furniture used
 2. 他在床上看书。 (Tā zài chuáng shàng kànshū.) - He is reading on the bed.
 3. 请把床单换一下。 (Qǐng bǎ chuáng dān huàn yíxià.) - Please change the bed sheet.
 \``,
-  ["word", "interestsPrompt"]
+  ["word", "interestsPrompt", "components"]
 );
 
 export const singleHanziAdditionalInfoTemplate = new PromptTemplate(
@@ -75,31 +77,57 @@ Except use examples for {word} instead of the example word 床 that is used in t
 2. 他在床上看书。 (Tā zài chuáng shàng kànshū.) - He is reading on the bed.
 3. 请把床单换一下。 (Qǐng bǎ chuáng dān huàn yíxià.) - Please change the bed sheet.
 \``,
-  ["word", "interestsPrompt"]
+  ["word"]
 );
 
-export const singleHanziMnemonicsTemplate = new PromptTemplate(
-  `If {word} is composed of other components, what are they, and what are their meanings?
-Use these components to make up three stories that can be used as mnemonics.
+export const singleHanziComponentsTemplate = new PromptTemplate(
+  `{components}. Describe its components and how they relate to the meaning of the word.
+  Use this template as an example. Use this exact format.
+
+\`
+# Components
+床 is composed of two other characters: 木 (mù) meaning wood and 广 (guǎng) meaning wide. This suggests that the bed is a wide piece of furniture made of wood. 木 is a sound component.
+\``,
+  ["components"]
+);
+
+export const singleHanziMnemonicsFromComponentsTemplate = new PromptTemplate(
+  `{components}
+Use these components to make up three stories that can be used as mnemonics for {word}.
 These stories should be related to the meaning and shape of the word, and meaning of its components.
 Include the hanzi of the word's components in the stories.
-
-If the word is not composed of components, make up three mnemonic stories that use its shape.
 
 The stories should be short, interesting and memorable.
 The stories should be related to the senses of the word.
 The stories should be related to the senses of the word's components.
 
-\`
-# Components
-床 is composed of two other characters: 木 (mù) meaning wood and 广 (guǎng) meaning wide. This suggests that the bed is a wide piece of furniture made of wood. 木 is a sound component.
+Use this template as an example. Use this exact format.
 
+\`
 # Mnemonics
 1. A bed is made of wood 木 and is wide 广.
 2. The horizontal stroke in 床 looks like the mattress of a bed. The vertical strokes are the legs of the bed.
 3. The bed exapnds 广 in all directions, like a tree 木.
 \``,
-  ["word", "interestsPrompt"]
+  ["word", "components"]
+);
+
+export const singleHanziMnemonicsWithoutComponentsTemplate = new PromptTemplate(
+  `
+Make up three different mnemonics to help remember the meaning of {word}.
+Each should be from one- to three-sentences.
+They should make use of the shape and meaning of the character, but not its sound or pinyin.
+For example, if the word were "丈", the examples would not mention "Zhang".
+
+Use this template as an example. Use this exact format.
+
+\`
+# Mnemonics
+1. The character 丈 looks like a person standing tall and proud, representing a "measure" of their height or strength.
+2. Imagine 丈 as a measuring stick, with its two horizontal lines indicating different lengths, symbolizing the concept of "measure."
+3. Picture 丈 as a combination of a "1" on top and a "3" on the bottom, which together make up the number "13," a "measure" of unlucky numbers.
+\``,
+  ["word"]
 );
 
 export const hanziWordInfoTemplate = new PromptTemplate(
@@ -173,9 +201,15 @@ Example: 我喜欢去海边游泳。 (Wǒ xǐhuān qù hǎibiān yóuyǒng.) –
 2. 铀 (yóu) - "uranium".
 Example: 铀是一种放射性元素。 (Yóu shì yī zhǒng fàngshèxìng yuánsù.) – Uranium is a radioactive element.
 \``,
-  ["word", "interestsPrompt"]
+  ["word"]
 );
 
+/**
+ * Identifies the type of input based on the given word.
+ *
+ * @param word The input string to identify the type of.
+ * @returns Either "hanzi", "pinyin", or null if the type cannot be identified.
+ */
 export function identifyInputType(word: string): "hanzi" | "pinyin" | null {
   if (isPinyin(word)) {
     return "pinyin";
@@ -187,18 +221,35 @@ export function identifyInputType(word: string): "hanzi" | "pinyin" | null {
   }
 }
 
+/**
+ * Chooses a prompt template or builder based on the type of the input word.
+ *
+ * @param word The input word to choose a template or builder for.
+ * @param type The type of the input word.
+ * @param components A promise or value representing the composition of the input word (for Hanzi only).
+ * @returns Either a PromptTemplate for the input word, or a PromptBuilder that can generate multiple templates.
+ * @throws Error if the type is not valid.
+ */
 export function chooseTemplate(
   word: string,
-  type: string
-): PromptTemplate | PromptTemplate[] {
+  type: string,
+  components: PromiseOrValue<string>
+): PromptTemplate | PromptBuilder {
   if (type === "hanzi") {
     const hanziCount = getHanziCount(word);
     return hanziCount === 1
-      ? [
+      ? new PromptBuilder([
           singleHanziInfoTemplate,
           singleHanziAdditionalInfoTemplate,
-          singleHanziMnemonicsTemplate,
-        ]
+          async function () {
+            return (await components)
+              ? [
+                  singleHanziComponentsTemplate,
+                  singleHanziMnemonicsFromComponentsTemplate,
+                ]
+              : singleHanziMnemonicsWithoutComponentsTemplate;
+          },
+        ])
       : hanziWordInfoTemplate;
   } else if (type === "pinyin") {
     return pinyinTranslationTemplate;

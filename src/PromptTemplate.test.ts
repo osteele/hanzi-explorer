@@ -21,4 +21,15 @@ describe("PromptTemplate", () => {
     const formattedPrompt = await promptTemplate.format(variables);
     expect(formattedPrompt).toEqual(expectedFormattedPrompt);
   });
+
+  it("should correctly format a template with Promise-valued variables", async () => {
+    const variables = {
+      name: new Promise<string>((resolve) => resolve("World")),
+      dayTime: "afternoon",
+    };
+    const expectedFormattedPrompt =
+      "Hello World, how are you feeling this afternoon?";
+    const formattedPrompt = await promptTemplate.format(variables);
+    expect(formattedPrompt).toEqual(expectedFormattedPrompt);
+  });
 });

@@ -82,6 +82,9 @@ export async function getCompletions({
         prompt: undefined,
       }
     : modelParameters;
+  if (process.env.LOG_REQUESTS === "true") {
+    console.log("requesting", prompt);
+  }
   const response = await fetch(`https://api.openai.com/v1/${endpoint}`, {
     method: "POST",
     headers: {
@@ -138,13 +141,30 @@ export async function getCompletions({
   return { data: { choices } };
 }
 
-function renameModelParameterNames(parameters: { [key: string]: any }) {
-  return Object.fromEntries(
-    Object.entries(parameters).map(([key, value]) => [
-      key === "numResults"
-        ? "n"
-        : key.replace(/([a-z])([A-Z])/g, "$1_$2").toLowerCase(),
-      value,
-    ])
-  );
+/**
+ * Renames keys in an object according to specified rules.
+ *
+ * @param parameters - The object whose keys should be renamed.
+ * @returns A new object with renamed keys based on the original keys and values from the input object.
+ *
+ * @example
+ * const parameters = { maxResults: 10, pageToken: "abc123", numResults: 5 };
+ * const renamedParams = renameModelParameterNames(parameters);
+ * // renamedParams == { max_results: 10, page_token: "abc123", n: 5 }
+ */
+function renameModelParameterNames(parameters: { [key: string]: any }): {
+  [key: string]: any;
+} {
+  const result: { [key: string]: any } = {};
+
+  for (const [key, value] of Object.entries(parameters)) {
+    if (key === "numResults") {
+      result["n"] = value;
+    } else {
+      const snakeCase = key.replace(/([a-z])([A-Z])/g, "$1_$2").toLowerCase();
+      result[snakeCase] = value;
+    }
+  }
+
+  return result;
 }
