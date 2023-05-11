@@ -24,7 +24,7 @@ type Props = {
 
 export function PromptInput({ word, setWord, isDisabled, onSubmit }: Props) {
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && !isDisabled) {
       onSubmit();
     }
   };

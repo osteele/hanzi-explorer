@@ -18,6 +18,7 @@ function MainScreen() {
 
   const handleSubmit = async () => {
     try {
+      setRequestInProgress(true);
       await getInputInfo({
         input,
         apiKey,
