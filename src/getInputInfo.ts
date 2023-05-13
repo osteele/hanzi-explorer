@@ -85,7 +85,7 @@ export async function getInputInfo({
     console.error(error);
     const message =
       error?.message ?? "An error occurred during the OpenAI request";
-    setError({ message });
+    setError(error?.message ? error : { message });
   }
 }
 
