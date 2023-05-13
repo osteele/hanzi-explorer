@@ -1,14 +1,15 @@
+import { useRef } from "react";
+import { PromptTemplate } from "./PromptTemplate";
 import {
   decompositionTemplateStrings,
   getCharacterDecomposition,
 } from "./getCharacterDecomposition";
-import { getCompletions } from "./openAIClient";
+import { CompletionRequestManager } from "./openAIClient";
 import {
   chooseTemplate,
   identifyInputType,
   interestsTemplate,
 } from "./prompts";
-import { PromptTemplate } from "./PromptTemplate";
 
 const ModelParameters = {
   model: "gpt-3.5-turbo",
@@ -19,20 +20,29 @@ const ModelParameters = {
   numResults: 1,
 };
 
-export async function getInputInfo({
-  input,
-  apiKey,
-  interests,
-  setCompletions,
-  setError,
-}: {
+type GetInputInfoParams = {
   input: string;
   apiKey: string | null;
   interests: string[];
-  setError: (error: { message: string } | null) => void;
   setCompletions: (completions: any[] | null) => void;
-}) {
-  input = input.replace(/\s+|\./g, "").trim();
+  setError: (
+    error: {
+      message: string;
+    } | null
+  ) => void;
+  completionRequestManager: CompletionRequestManager;
+};
+
+export async function getInputInfo(params: GetInputInfoParams) {
+  const {
+    input: untrimmedInput,
+    apiKey,
+    interests,
+    setCompletions,
+    setError,
+    completionRequestManager,
+  } = params;
+  const input = untrimmedInput.replace(/\s+|\./g, "").trim();
   if (!apiKey) {
     setError({ message: "Please enter an API key" });
     return;
@@ -71,7 +81,7 @@ export async function getInputInfo({
   try {
     setCompletions(null);
     setError(null);
-    const response = await getCompletions({
+    const response = await completionRequestManager.getCompletions({
       apiKey,
       ...ModelParameters,
       prompt,

@@ -11,7 +11,7 @@ describe("PromptTemplate", () => {
 
   it("should correctly find variables in the template", () => {
     const foundVars = PromptTemplate.findVariables(templateString);
-    expect(foundVars.sort()).toEqual(expectedVariables.sort());
+    expect(foundVars).toEqual(new Set(expectedVariables));
   });
 
   it("should correctly format a template with given variables", async () => {
