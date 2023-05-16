@@ -1,10 +1,9 @@
-import { useRef } from "react";
 import { PromptTemplate } from "./PromptTemplate";
+import { CompletionRequestManager } from "./completionRequestManager";
 import {
   decompositionTemplateStrings,
   getCharacterDecomposition,
 } from "./getCharacterDecomposition";
-import { CompletionRequestManager } from "./openAIClient";
 import {
   chooseTemplate,
   identifyInputType,
@@ -89,6 +88,7 @@ export async function getInputInfo(params: GetInputInfoParams) {
         // make a copy, so that React will notice that the state has changed
         setCompletions([...choices]);
       },
+      abortPreviousRequests: true,
     });
     setCompletions(response.data.choices);
   } catch (error: any) {

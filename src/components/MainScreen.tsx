@@ -3,9 +3,10 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { APIKeyContext } from "../APIKeyContext";
 import { SettingsContext } from "../SettingsContext";
 import { getInputInfo } from "../getInputInfo";
-import { CompletionRequestManager, Completions } from "../openAIClient";
+import { Completions } from "../openAIClient";
 import { PromptInput } from "./PromptInput";
 import { ResponseModules } from "./ResponseModules";
+import { useCompletionRequestManager } from "../completionRequestManager";
 
 function MainScreen() {
   const { apiKey } = useContext(APIKeyContext)!;
@@ -17,16 +18,12 @@ function MainScreen() {
   const [error, setError] = useState<{ message: string } | null>(null);
   const [requestInProgress, setRequestInProgress] = useState(false);
 
-  const completionRequestManagerRef = useRef<CompletionRequestManager | null>(
-    null
-  );
-  useEffect(() => {
-    completionRequestManagerRef.current = new CompletionRequestManager();
-  }, [apiKey]);
-  const completionRequestManager = completionRequestManagerRef.current!;
+  const completionRequestManager = useCompletionRequestManager(apiKey);
 
   const handleSubmit = async () => {
-    completionRequestManager.cancelAllPendingRequests();
+    if (!completionRequestManager) {
+      return;
+    }
     try {
       setRequestInProgress(true);
       setPreviousInput(input);
