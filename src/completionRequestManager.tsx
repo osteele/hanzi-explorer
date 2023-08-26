@@ -40,17 +40,17 @@ export class CompletionRequestManager {
   public async getCompletions(
     props: GetCompletionsParams & { abortPreviousRequests?: boolean }
   ): Promise<{ data: { choices: Completions } }> {
-    const apiKey = this.apiKey;
-    const abortPreviousRequests = props.abortPreviousRequests ?? false;
+    const { apiKey } = this;
+    const { abortPreviousRequests, ...params } = props;
     if (abortPreviousRequests) {
       await this.cancelAllPendingRequests();
     }
 
     const controller = new AbortController();
-    const signal = controller.signal;
+    const { signal } = controller;
     try {
       this.pendingControllers.push(controller);
-      return await getCompletions({ signal, ...props, apiKey });
+      return await getCompletions({ signal, ...params, apiKey });
     } finally {
       const ix = this.pendingControllers.indexOf(controller);
       if (ix >= 0) {
